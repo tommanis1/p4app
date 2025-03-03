@@ -4,9 +4,9 @@ Changes
  
 Dependencies
 =====
-cpp
+* cpp
+* docker-buildx
 
-p4app
 =====
 
 p4app is a tool that can build, run, debug, and test P4 programs. The
@@ -19,7 +19,11 @@ Installation
 1. Install [docker](https://docs.docker.com/engine/installation/) if you don't
    already have it.
 
-2. If you want, put the `p4app` script somewhere in your path. For example:
+2. clone this repo
+
+3. git submodule update --init --recursive
+
+4. If you want, put the `p4app` script somewhere in your path. For example:
 
     ```
     cp p4app /usr/local/bin

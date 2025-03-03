@@ -1,5 +1,3 @@
-#!/usr/bin/env python2
-
 # Copyright 2013-present Barefoot Networks, Inc.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
@@ -59,6 +57,9 @@ parser.add_argument('--log-dir', '-l', help='Location to save output to',
 
 args = parser.parse_args()
 
+for arg in vars(args):
+    if isinstance(getattr(args, arg), str):
+        setattr(args, arg, getattr(args, arg).replace('"', ''))
 
 next_thrift_port = args.thrift_port
 
@@ -77,11 +78,10 @@ def configureP4Switch(**switch_args):
 
 
 def main():
-
-    with open(args.manifest, 'r') as f:
+    with open(args.manifest.replace('"', ''), 'r') as f:
         manifest = json.load(f)
 
-    conf = manifest['targets'][args.target]
+    conf = manifest['targets'][args.target.replace('"', '')]
     if 'parameters' not in conf: conf['parameters'] = {}
     if 'hosts' not in conf: conf['hosts'] = {}
     if 'switches' not in conf: conf['switches'] = {}
@@ -100,7 +100,10 @@ def main():
         sys.path.insert(0, os.path.dirname(args.manifest))
 
     if 'topo_module' in conf:
+        sys.path.append(os.getcwd()) # chatgpt hack, bit of a canon
         topo_module = importlib.import_module(conf['topo_module'])
+        print(topo_module)
+        # subprocess.call("cat /tmp/./topo.py".split())
         AppTopo = topo_module.CustomAppTopo
 
     if 'controller_module' in conf:
@@ -114,8 +117,7 @@ def main():
     if not os.path.isdir(args.log_dir):
         if os.path.exists(args.log_dir): raise Exception('Log dir exists and is not a dir')
         os.mkdir(args.log_dir)
-    os.environ['P4APP_LOGDIR'] = args.log_dir
-
+    os.environ['P4APP_LOGDIR'] = args.log_dir.replace('"', '')
 
     def formatLatency(lat):
         if isinstance(lat, (str, unicode)): return formatParams(lat)
@@ -138,22 +140,24 @@ def main():
     bmv2_log = args.bmv2_log or ('bmv2_log' in conf and conf['bmv2_log'])
     pcap_dump = args.pcap_dump or ('pcap_dump' in conf and conf['pcap_dump'])
 
-    topo = AppTopo(manifest=manifest, target=args.target)
+    topo = AppTopo(manifest=manifest, target=args.target.replace('"', ''))
+
     switchClass = configureP4Switch(
             sw_path=args.behavioral_exe,
             json_path=args.json,
             log_console=bmv2_log,
             pcap_dump=pcap_dump)
+
     net = Mininet(topo = topo,
-                  link = TCLink,
-                  host = P4Host,
-                  switch = switchClass,
-                  controller = None)
+                link = TCLink,
+                host = P4Host,
+                switch = switchClass,
+                controller = None)
 
     controller = None
     if args.auto_control_plane or 'controller_module' in conf:
         controller = AppController(manifest=manifest, target=args.target,
-                                     topo=topo, net=net, cli_path=args.cli_path)
+                                    topo=topo, net=net, cli_path=args.cli_path)
 
     net.start()
 

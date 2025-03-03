@@ -21,7 +21,7 @@ class AppProcess:
     def formatCmd(self, cmd):
         for h in self.runner.net.hosts:
             cmd = re.sub('(%s)([^0-9]|$)' % h.name, h.defaultIntf().updateIP() + '\\2', cmd)
-            print cmd
+            print (cmd)
         return cmd
 
 
@@ -30,7 +30,7 @@ class AppProcess:
         self.cmd = self.formatCmd(self.host_conf['cmd'])
         self.proc = self.host.popen(self.cmd, stdout=self.stdout_file, shell=True, preexec_fn=os.setpgrp)
 
-        print self.host.name, self.cmd
+        print (self.host.name, self.cmd)
 
         if 'startup_sleep' in self.host_conf:
             sleep(self.host_conf['startup_sleep'])
@@ -41,10 +41,10 @@ class AppProcess:
             self.stdout_file.close()
 
     def waitForExit(self):
-        print self.host.name, self.proc.communicate()
+        print (self.host.name, self.proc.communicate())
         if self.proc.returncode is None:
             self.proc.wait()
-            print self.host.name, self.proc.communicate()
+            print (self.host.name, self.proc.communicate())
 
         self.cleanup()
 
@@ -63,7 +63,7 @@ class AppProcess:
         cmd = 'kill -INT %s' % ' '.join(descendants)
         rc, stdout, _ = self.run_command(cmd)
 
-        print "Sent INT to children of PID %d: `%s`. Return code: %d" % (self.proc.pid, cmd, rc)
+        print ("Sent INT to children of PID %d: `%s`. Return code: %d" % (self.proc.pid, cmd, rc))
 
     def kill(self):
         if self.proc.returncode is not None: # already exited
@@ -101,8 +101,11 @@ class AppProcRunner:
         self.return_codes = []
 
     def setupProcs(self):
-        os.environ.update(dict(map(lambda (k,v): (k, str(v)), self.conf['parameters'].iteritems())))
-        print '\n'.join(map(lambda (k,v): "%s: %s"%(k,v), self.conf['parameters'].iteritems())) + '\n'
+        # os.environ.update(dict(map(lambda (k,v): (k, str(v)), self.conf['parameters'].iteritems())))
+        os.environ.update({k: str(v) for k, v in self.conf['parameters'].items()})
+        
+        # print '\n'.join(map(lambda (k,v): "%s: %s"%(k,v), self.conf['parameters'].iteritems())) + '\n'
+        print('\n'.join(["%s: %s" % (k, v) for k, v in self.conf['parameters'].items()]) + '\n')
 
         for host_name in sorted(self.conf['hosts'].keys()):
             host_conf = self.conf['hosts'][host_name]

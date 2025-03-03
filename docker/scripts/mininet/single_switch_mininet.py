@@ -1,4 +1,3 @@
-#!/usr/bin/env python2
 
 # Copyright 2013-present Barefoot Networks, Inc.
 #
@@ -69,7 +68,7 @@ class SingleSwitchTopo(Topo):
             host = self.addHost('h%d' % (h + 1),
                                 ip = "10.0.%d.10/24" % h,
                                 mac = '00:04:00:00:00:%02x' %h)
-            print "Adding host", str(host)
+            print ("Adding host", str(host))
             self.addLink(host, switch)
 
 def main():
@@ -109,22 +108,22 @@ def main():
 
     if args.switch_config is not None:
         print
-        print "Reading switch configuration script:", args.switch_config
+        print ("Reading switch configuration script:", args.switch_config)
         with open(args.switch_config, 'r') as config_file:
             switch_config = config_file.read()
 
-        print "Configuring switch..."
+        print ("Configuring switch...")
         proc = Popen(["simple_switch_CLI"], stdin=PIPE)
         proc.communicate(input=switch_config)
 
-        print "Configuration complete."
+        print ("Configuration complete.")
         print
 
-    print "Ready !"
+    print( "Ready !")
 
     if args.cli_message is not None:
         with open(args.cli_message, 'r') as message_file:
-            print message_file.read()
+            print (message_file.read())
 
     CLI( net )
     net.stop()

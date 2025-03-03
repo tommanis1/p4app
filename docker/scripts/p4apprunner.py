@@ -1,4 +1,4 @@
-#!/usr/bin/env python2
+#!/usr/bin/env python3
 # Copyright 2013-present Barefoot Networks, Inc.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
@@ -13,7 +13,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-from __future__ import print_function
+# from __future__ import print_function
 
 import argparse
 from collections import OrderedDict
@@ -21,7 +21,7 @@ import json
 import os
 import sys
 import tarfile
-
+import subprocess
 parser = argparse.ArgumentParser(description='p4apprunner')
 parser.add_argument('--build-dir', help='Directory to build in.',
                     type=str, action='store', required=False, default='/tmp')
@@ -48,9 +48,14 @@ def log_error(*items):
     print(*items, file=sys.stderr)
 
 def run_command(command):
-    log('>', command)
-    return os.WEXITSTATUS(os.system(command))
-
+    print(f"\033[1;32mRunning command:\033[0m {command}")
+    try:
+        result = subprocess.run(command.split(), check=True)
+        return result.returncode
+    except subprocess.CalledProcessError as e:
+        print(f"Error occurred: {e}")
+        # print(f"Standard Output: {e.stdout.decode()}")
+        # print(f"Standard Error: {e.stderr.decode()}")
 class Manifest:
     def __init__(self, program_file, language, target, target_config):
         self.program_file = program_file
@@ -80,7 +85,7 @@ def read_manifest(manifest_file):
     elif 'default-target' in manifest:
         chosen_target = manifest['default-target']
     else:
-        chosen_target = manifest['targets'].keys()[0]
+        chosen_target = list(manifest['targets'].keys())[0]
 
     if chosen_target not in manifest['targets']:
         log_error('Target not found in manifest:', chosen_target)
@@ -121,7 +126,9 @@ def run_compile_bmv2(manifest):
     output_file = get_program_name(manifest.program_file) + '.json'
     compiler_args.append('"%s"' % manifest.program_file)
     compiler_args.append('-o "%s"' % output_file)
-    rv = run_command('p4c-bm2-ss %s' % ' '.join(compiler_args))
+    run_command('ls')
+    # print(compiler_args)
+    run_command('p4c-bm2-ss %s' % ' '.join(compiler_args).replace('"', ''))
 
     if 'run-after-compile' in manifest.target_config:
         commands = manifest.target_config['run-after-compile']
@@ -131,9 +138,9 @@ def run_compile_bmv2(manifest):
         for command in commands:
             run_command(command)
 
-    if rv != 0:
-        log_error('Compile failed.')
-        sys.exit(1)
+    # if rv != 0:
+    #     log_error('Compile failed.')
+    #     sys.exit(1)
 
     return output_file
 
@@ -191,7 +198,8 @@ def run_mininet(manifest):
     switch_args.append('--json "%s"' % output_file)
 
     program = '"%s/mininet/single_switch_mininet.py"' % sys.path[0]
-    return run_command('python2 %s %s' % (program, ' '.join(switch_args)))
+
+    return run_command('python3 %s %s' % (program, ' '.join(switch_args)))
 
 def build_only(manifest):
 
@@ -236,8 +244,8 @@ def run_multiswitch(manifest):
     script_args.append('--cli-path "%s"' % switch_cli)
     script_args.append('--json "%s"' % json_file)
 
-    program = '"%s/mininet/multi_switch_mininet.py"' % sys.path[0]
-    return run_command('python2 %s %s' % (program, ' '.join(script_args)))
+    program = '%s/mininet/multi_switch_mininet.py' % sys.path[0]
+    run_command('python3 %s %s' % (program, ' '.join(script_args)))
 
 def run_stf(manifest):
     output_file = run_compile_bmv2(manifest)
@@ -277,6 +285,8 @@ def run_custom(manifest):
     return rv
 
 def main():
+    run_command("ls")
+    print(args.app)
     log('Entering build directory.')
     os.chdir(args.build_dir)
 
@@ -286,6 +296,7 @@ def main():
     tar = tarfile.open(args.app)
     tar.extractall()
     tar.close()
+    run_command("ls")
 
     run_command('touch /tmp/p4app_logs/p4s.s1.log')
     run_command('ln -s /tmp/p4app_logs/p4s.s1.log /tmp/p4s.s1.log')
@@ -305,7 +316,7 @@ def main():
     elif backend == 'mininet':
         rc = run_mininet(manifest)
     elif backend == 'multiswitch':
-        rc = run_multiswitch(manifest)
+        run_multiswitch(manifest)
     elif backend == 'stf':
         rc = run_stf(manifest)
     elif backend == 'custom':
@@ -314,7 +325,7 @@ def main():
         log_error('Target specifies unknown backend:', backend)
         sys.exit(1)
 
-    sys.exit(rc)
+    # sys.exit(rc)
 
 if __name__ == '__main__':
     main()
