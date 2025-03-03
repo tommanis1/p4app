@@ -66,8 +66,18 @@ function run-command {
     # The user passed the package as a directory. Tar it up and pass it to the
     # container.
     PACKAGE_DIR=$(normalize_path "$1")
+    TMP_DIR=/tmp/p4app/tmp
+    $(mkdir -p $TMP_DIR)
+    cp -r $PACKAGE_DIR/* $TMP_DIR
+
+    # Run Cpp to remove comments
+    cpp -P $TMP_DIR/p4app.json -o $TMP_DIR/p4app.json.tmp
+    mv $TMP_DIR/p4app.json $TMP_DIR/p4app.json.old
+    mv $TMP_DIR/p4app.json.tmp $TMP_DIR/p4app.json
+
+
     APP_FILE=$(mktemp /tmp/p4app.tar.gz.XXXXXX)
-    tar -czf "$APP_FILE" -C "$PACKAGE_DIR" .
+    tar -czf "$APP_FILE" -C "$TMP_DIR" .
     run-p4app "$APP_FILE" "${@:2}"
     rc=$?
     rm "$APP_FILE"

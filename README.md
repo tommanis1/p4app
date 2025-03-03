@@ -1,3 +1,11 @@
+Changes
+=====
+* added support for C-style comments via cpp
+ 
+Dependencies
+=====
+cpp
+
 p4app
 =====
 
