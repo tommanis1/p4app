@@ -1,26 +1,23 @@
 FROM p4lang/p4c:latest
-MAINTAINER Seth Fowler <seth@barefootnetworks.com>
-MAINTAINER Robert Soule <robert.soule@barefootnetworks.com>
-
 # Install dependencies and some useful tools.
 ENV NET_TOOLS iputils-arping \
               iputils-ping \
               iputils-tracepath \
               net-tools \
               nmap \
-              python-ipaddr \
-              python-scapy \
+            #   python-ipaddr \ # now a part of python3
+              python3-scapy \
               tcpdump \
               traceroute \
               tshark
 ENV MININET_DEPS automake \
                  build-essential \
-                 cgroup-bin \
+                 cgroup-tools \
                  ethtool \
                  gcc \
                  help2man \
                  iperf \
-                 iproute \
+                 iproute2 \
                  libtool \
                  make \
                  pkg-config \
@@ -47,12 +44,18 @@ RUN mv /usr/sbin/tcpdump /usr/bin/tcpdump
 # Install mininet.
 COPY docker/third-party/mininet /third-party/mininet
 WORKDIR /third-party/mininet
-RUN cp util/m /usr/local/bin/m
-RUN make install && \
-    rm -rf /third-party/mininet
+RUN cp util/m /usr/local/bin/m 
+# not sure what this is meant to copy
+RUN echo -e "\e[32mInstalling Mininet...\e[0m"
+RUN sed -i 's|git://|https://|g' util/install.sh
+RUN PYTHON=python3 util/install.sh -fnv
+# RUN make install && \
+#     rm -rf /third-party/mininet
 
 # Install the scripts we use to run and test P4 apps.
-COPY docker/scripts /scripts
-WORKDIR /scripts
 
-ENTRYPOINT ["./p4apprunner.py"]
+# moved to a mounted volume
+# COPY docker/scripts /scripts
+# WORKDIR /scripts
+
+# ENTRYPOINT ["./p4apprunner.py"]

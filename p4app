@@ -12,8 +12,8 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
-
-P4APP_IMAGE=${P4APP_IMAGE:-p4lang/p4app:latest}
+P4APP_IMAGE="p4app-py3"
+# P4APP_IMAGE=${P4APP_IMAGE:-p4lang/p4app:latest}
 P4APP_CONTAINER_ARGS=${P4APP_CONTAINER_ARGS:-""}
 
 
@@ -56,11 +56,17 @@ function run-p4app {
             --name "$P4APP_NAME" \
             -v $1:$APP_TO_RUN \
             -v "$P4APP_LOGDIR":/tmp/p4app_logs \
+            -v $(realpath docker/scripts):/scripts \
+            -w /scripts \
              $P4APP_CONTAINER_ARGS \
-             $P4APP_IMAGE $APP_TO_RUN "${@:2}"
+             $P4APP_IMAGE ./p4apprunner.py "$APP_TO_RUN" "${@:2}"
 }
 
 function run-command {
+  # check if image exists
+  if ! docker inspect $P4APP_IMAGE &> /dev/null; then
+    update-command
+  fi
   # Run the .p4app package provided by the user.
   if [ -d "$1" ]; then
     # The user passed the package as a directory. Tar it up and pass it to the
@@ -68,6 +74,9 @@ function run-command {
     PACKAGE_DIR=$(normalize_path "$1")
     TMP_DIR=/tmp/p4app/tmp
     $(mkdir -p $TMP_DIR)
+    $(rm -rf $TMP_DIR)
+    $(mkdir -p $TMP_DIR)
+
     cp -r $PACKAGE_DIR/* $TMP_DIR
 
     # Run Cpp to remove comments
@@ -133,7 +142,7 @@ function unpack-command {
 }
 
 function update-command {
-  docker pull $P4APP_IMAGE
+  DOCKER_BUILDKIT=1 docker build -t $P4APP_IMAGE .
 }
 
 function exec-command {
