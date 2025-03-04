@@ -24,6 +24,7 @@ import socket
 
 class P4Host(Host):
     def config(self, **params):
+        self.p = params
         r = super(P4Host, self).config(**params)
 
         for off in ["rx", "tx", "sg"]:
@@ -45,6 +46,8 @@ class P4Host(Host):
             self.defaultIntf().IP(),
             self.defaultIntf().MAC()
         ))
+        print(f"params: {self.p}")
+
         if sw_addr is not None or sw_mac is not None:
             print ("Default route to switch: %s (%s)" % (sw_addr, sw_mac))
         print ("**********")
