@@ -51,11 +51,10 @@ class AppController:
     def sendCommands(self, commands, thrift_port=9090, sw=None):
         if sw: thrift_port = sw.thrift_port
 
-        print ('\n'.join(commands))
         p = subprocess.Popen([self.cli_path, '--thrift-port', str(thrift_port)], stdin=subprocess.PIPE, stdout=subprocess.PIPE)
-        stdout, nostderr = p.communicate(input='\n'.join(commands))
-        print (stdout)
-        raw_results = stdout.split('RuntimeCmd:')[1:len(commands)+1]
+        stdout, _ = p.communicate(input='\n'.join(commands).encode())
+        print(f"Result for running switch commands: {stdout.decode()}")
+        raw_results = stdout.decode().split('RuntimeCmd:')[1:len(commands)+1]
         parsed_results = map(self.parseCliOutput, raw_results)
         return parsed_results
 
@@ -157,7 +156,7 @@ class AppController:
         self.loadMcastGroups()
 
         for sw in self.switches:
-            for mgid, ports in self.mcast_groups[sw].iteritems():
+            for mgid, ports in self.mcast_groups[sw].items():
                 self.createMcastGroup(mgid, ports, sw=self.net.get(sw))
 
     def loadMcastGroups(self):
@@ -200,7 +199,7 @@ class AppController:
 
 
         for h in self.net.hosts:
-            h_link = self.topo._host_links[h.name].values()[0]
+            h_link = list(self.topo._host_links[h.name].values())[0]
             for sw in self.net.switches:
                 path = self.shortestpath.get(sw.name, h.name, exclude=lambda n: n in self.topo._host_links)
                 if not path: continue
