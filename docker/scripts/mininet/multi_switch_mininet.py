@@ -92,7 +92,7 @@ def main():
             s = s.replace('${'+param+'}', str(conf['parameters'][param]))
         return s
 
-    AppTopo = apptopo.AppTopo
+    AppTopo = None # apptopo.AppTopo
     AppController = appcontroller.AppController
     AppProcRunner = appprocrunner.AppProcRunner
 
@@ -103,7 +103,6 @@ def main():
         sys.path.append(os.getcwd()) # chatgpt hack, bit of a canon
         topo_module = importlib.import_module(conf['topo_module'])
         print(topo_module)
-        # subprocess.call("cat /tmp/./topo.py".split())
         AppTopo = topo_module.CustomAppTopo
 
     if 'controller_module' in conf:
@@ -141,19 +140,16 @@ def main():
     pcap_dump = args.pcap_dump or ('pcap_dump' in conf and conf['pcap_dump'])
 
     topo = AppTopo(manifest=manifest, target=args.target.replace('"', ''))
-
     switchClass = configureP4Switch(
             sw_path=args.behavioral_exe,
             json_path=args.json,
             log_console=bmv2_log,
             pcap_dump=pcap_dump)
-
     net = Mininet(topo = topo,
                 link = TCLink,
                 host = P4Host,
                 switch = switchClass,
                 controller = None)
-
     controller = None
     if args.auto_control_plane or 'controller_module' in conf:
         controller = AppController(manifest=manifest, target=args.target,
