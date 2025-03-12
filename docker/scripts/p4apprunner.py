@@ -128,7 +128,7 @@ def run_compile_bmv2(manifest):
     compiler_args.append('-o "%s"' % output_file)
     run_command('ls')
     # print(compiler_args)
-    run_command('p4c-bm2-ss %s' % ' '.join(compiler_args).replace('"', ''))
+    run_command('p4c-bm2-ss -O0 %s' % ' '.join(compiler_args).replace('"', ''))
 
     if 'run-after-compile' in manifest.target_config:
         commands = manifest.target_config['run-after-compile']

@@ -1,4 +1,4 @@
-FROM p4lang/p4c:latest
+FROM p4c-with-fix
 # Install dependencies and some useful tools.
 ENV NET_TOOLS iputils-arping \
               iputils-ping \
