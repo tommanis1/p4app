@@ -1,4 +1,6 @@
 FROM p4c-with-fix
+# FROM p4lang/p4c:latest
+
 # Install dependencies and some useful tools.
 ENV NET_TOOLS iputils-arping \
               iputils-ping \
@@ -17,6 +19,7 @@ ENV MININET_DEPS automake \
                  gcc \
                  help2man \
                  iperf \
+                 iperf3 \
                  iproute2 \
                  libtool \
                  make \
@@ -30,13 +33,15 @@ ENV MININET_DEPS automake \
                  pyflakes \
                  pylint \
                  python-pexpect \
-                 python-setuptools
+                 python-setuptools 
 
 # Ignore questions when installing with apt-get:
 ENV DEBIAN_FRONTEND noninteractive
 
 RUN apt-get update && \
     apt-get install -y --no-install-recommends $NET_TOOLS $MININET_DEPS
+
+RUN apt-get install -y tmux
 
 # Fix to get tcpdump working
 RUN mv /usr/sbin/tcpdump /usr/bin/tcpdump

@@ -50,16 +50,19 @@ function build-command {
 }
 
 function run-p4app {
-  APP_TO_RUN=/tmp/app.tar.gz
+  # APP_TO_RUN=/tmp/app.tar.gz
   P4APP_NAME=${P4APP_NAME:-"p4app_$RANDOM"}
+  # echo "realpath $(realpath docker/scripts)"
+  D=$(realpath $1)
+  echo "going to run $D"
   docker run --privileged --interactive --tty --rm \
             --name "$P4APP_NAME" \
-            -v $1:$APP_TO_RUN \
-            -v "$P4APP_LOGDIR":/tmp/p4app_logs \
-            -v $(realpath docker/scripts):/scripts \
+            -v "$D":/tmp/p4app \
+            -v /tmp/p4app_logs:/tmp/p4app_logs \
+            -v /personal/docs/uni/year_6/repos/p4app/docker/scripts:/scripts \
             -w /scripts \
              $P4APP_CONTAINER_ARGS \
-             $P4APP_IMAGE ./p4apprunner.py "$APP_TO_RUN" "${@:2}"
+             $P4APP_IMAGE ./p4apprunner.py "${@:2}"
 }
 
 function run-command {
@@ -72,30 +75,33 @@ function run-command {
     # The user passed the package as a directory. Tar it up and pass it to the
     # container.
     PACKAGE_DIR=$(normalize_path "$1")
-    TMP_DIR=/tmp/p4app/tmp
-    $(mkdir -p $TMP_DIR)
-    $(rm -rf $TMP_DIR)
-    $(mkdir -p $TMP_DIR)
+    # TMP_DIR=/tmp/p4app/tmp
+    # $(mkdir -p $TMP_DIR)
+    # $(rm -rf $TMP_DIR)
+    # $(mkdir -p $TMP_DIR)
 
-    cp -r $PACKAGE_DIR/* $TMP_DIR
+    # cp -r $PACKAGE_DIR/* $TMP_DIR
 
-    # Run Cpp to remove comments
-    cpp -P $TMP_DIR/p4app.json -o $TMP_DIR/p4app.json.tmp
-    mv $TMP_DIR/p4app.json $TMP_DIR/p4app.json.old
-    mv $TMP_DIR/p4app.json.tmp $TMP_DIR/p4app.json
+    # # Run Cpp to remove comments
+    # cpp -P $TMP_DIR/p4app.json -o $TMP_DIR/p4app.json.tmp
+    # mv $TMP_DIR/p4app.json $TMP_DIR/p4app.json.old
+    # mv $TMP_DIR/p4app.json.tmp $TMP_DIR/p4app.json
+    cpp -P $PACKAGE_DIR/p4app.json -o $PACKAGE_DIR/p4app.json.tmp
+    mv $PACKAGE_DIR/p4app.json $PACKAGE_DIR/p4app.json.old
+    mv $PACKAGE_DIR/p4app.json.tmp $PACKAGE_DIR/p4app.json
 
-
-    APP_FILE=$(mktemp /tmp/p4app.tar.gz.XXXXXX)
-    tar -czf "$APP_FILE" -C "$TMP_DIR" .
-    run-p4app "$APP_FILE" "${@:2}"
+    # APP_FILE=$(mktemp /tmp/p4app.tar.gz.XXXXXX)
+    # tar -czf "$APP_FILE" -C "$TMP_DIR" .
+    run-p4app "$PACKAGE_DIR" "${@:2}"
     rc=$?
-    rm "$APP_FILE"
+    # rm "$APP_FILE"
   elif [ -f "$1" ]; then
-    # The user passed the package as a file. We'll assume it's already a .tar.gz
-    # archive; just pass it to the container as-is.
-    APP_FILE=$(get_abs_filename "$1")
-    run-p4app "$APP_FILE" "${@:2}"
-    rc=$?
+    echo "File instead of directory no longer supported"
+    # # The user passed the package as a file. We'll assume it's already a .tar.gz
+    # # archive; just pass it to the container as-is.
+    # APP_FILE=$(get_abs_filename "$1")
+    # run-p4app "$APP_FILE" "${@:2}"
+    # rc=$?
   else
     echo "Couldn't read p4app package: $1"
     exit 1

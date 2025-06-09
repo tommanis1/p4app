@@ -101,6 +101,12 @@ def main():
 
     if 'topo_module' in conf:
         sys.path.append(os.getcwd()) # chatgpt hack, bit of a canon
+        # ls_cur = os.listdir(os.getcwd())
+        # print(ls_cur)
+        # print(subprocess.check_output("cat p4app.json ", shell=True))
+        # print(subprocess.check_output("ls -la template.p4app ", shell=True))
+        # print("Current working directory:", os.getcwd())
+        # sys.exit(5)
         topo_module = importlib.import_module(conf['topo_module'])
         print(topo_module)
         AppTopo = topo_module.CustomAppTopo
@@ -164,8 +170,19 @@ def main():
 
     for h in net.hosts:
         h.describe()
-
-    if args.cli or ('cli' in conf and conf['cli']):
+    skip_cli = False
+    # Check for and execute main commands from manifest
+    for host_name, host_config in conf['hosts'].items():
+        if 'main_command' in host_config:
+            main_command = host_config['main_command']
+            # if isinstance(main_command, list):
+            #     main_command = ' '.join(main_command)
+            info(f'Found main command for {host_name}: {main_command}\n')
+            host = net.get(host_name)
+            host.cmd(main_command)
+            skip_cli = False
+    
+    if args.cli and not skip_cli or ('cli' in conf and conf['cli'] and not skip_cli):
         CLI(net)
 
     proc_runner = AppProcRunner(manifest=manifest, target=args.target,
