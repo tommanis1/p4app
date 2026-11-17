@@ -1,0 +1,6 @@
+{
+    "files.associations": {
+        "*.p4": "cpp",
+        "unordered_map": "cpp"
+    }
+}

@@ -22,6 +22,8 @@ import os
 import sys
 import tarfile
 import subprocess
+import time
+
 parser = argparse.ArgumentParser(description='p4apprunner')
 parser.add_argument('--build-dir', help='Directory to build in.',
                     type=str, action='store', required=False, default='/tmp')
@@ -220,7 +222,6 @@ def build_only(manifest):
         sys.exit(1)
 
 def run_multiswitch(manifest):
-
     model = 'bmv2'
     if 'model' in manifest.target_config:
         model = manifest.target_config['model'].lower()
@@ -245,7 +246,43 @@ def run_multiswitch(manifest):
     script_args.append('--json "%s"' % json_file)
 
     program = '%s/mininet/multi_switch_mininet.py' % sys.path[0]
-    run_command('python3 %s %s' % (program, ' '.join(script_args)))
+    c = 'python3 %s %s' % (program, ' '.join(script_args))
+    
+    if manifest.target_config['tmux']:
+        # Try to run with tmux first
+        try:
+            # Create main tmux session for mininet
+            tmux_cmd = f'tmux new-session -d -s mininet "{c}"'
+            result = subprocess.run(tmux_cmd, shell=True, capture_output=True, text=True)
+            if result.returncode != 0:
+                print(f"Error creating tmux session: {result.stderr}")
+                # Fall back to running without tmux
+                print("Falling back to running without tmux...")
+                run_command(c)
+            else:
+                print("Main tmux session for mininet created successfully")
+                
+                # Wait a bit for mininet to start up
+                time.sleep(2)
+                
+                # Create windows for each host
+                num_hosts = 2
+                for i in range(1, num_hosts + 1):
+                    # h1 tmux new-window -t mininet -n "h{i}" "/bin/bash"
+                    run_command(f"tmux send-keys -t mininet:0 h{i} Space tmux Space new-window Space -t Space mininet Space -n Space \"h{i}\" Space \"/bin/bash\" C-m")
+                    time.sleep(1)
+                
+                # Attach to the session
+                print("Attaching to tmux session...")
+                run_command('tmux attach-session -t mininet')
+
+        except Exception as e:
+            print(f"Error: {str(e)}")
+            # Fall back to running without tmux
+            print("Falling back to running without tmux...")
+            run_command(c)
+    else:
+        run_command(c)
 
 def run_stf(manifest):
     output_file = run_compile_bmv2(manifest)
