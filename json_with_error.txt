@@ -1,0 +1,1812 @@
+-{
+error:
+Calling target program-options parser
+Parser 'set' operation has invalid destination type 'expression', expected 'field'
+bad json:
+{
+   "op" : "set",
+   "parameters" : [
+      {
+         "type" : "expression",
+         "value" : {
+            "left" : {
+               "type" : "expression",
+               "value" : {
+                  "left" : {
+                     "type" : "header_stack",
+                     "value" : "return_stack"
+                  },
+                  "op" : "dereference_header_stack",
+                  "right" : {
+                     "type" : "field",
+                     "value" : [ "scalars", "return_stack_index" ]
+                  }
+               }
+            },
+            "op" : "access_field",
+            "right" : 0
+         }
+      },
+      {
+         "type" : "hexstr",
+         "value" : "0x0002"
+      }
+   ]
+}
+
+
+
+-}
+{
+  "header_types" : [
+    {
+      "name" : "scalars_0",
+      "id" : 0,
+      "fields" : [
+        ["tmp_0", 1, false],
+        ["tmp_1", 1, false],
+        ["tmp_2", 1, false],
+        ["tmp_3", 1, false],
+        ["tmp_4", 1, false],
+        ["type_1", 16, false],
+        ["return_stack_index", 16, true],
+        ["tmp", 10, false],
+        ["tmp_return", 16, true],
+        ["tmp_return_0", 16, true],
+        ["tmp_return_2", 16, true],
+        ["_padding_0", 1, false]
+      ]
+    },
+    {
+      "name" : "return_stack_type",
+      "id" : 1,
+      "fields" : [
+        ["val", 16, true]
+      ]
+    },
+    {
+      "name" : "standard_metadata",
+      "id" : 2,
+      "fields" : [
+        ["ingress_port", 9, false],
+        ["egress_spec", 9, false],
+        ["egress_port", 9, false],
+        ["instance_type", 32, false],
+        ["packet_length", 32, false],
+        ["enq_timestamp", 32, false],
+        ["enq_qdepth", 19, false],
+        ["deq_timedelta", 32, false],
+        ["deq_qdepth", 19, false],
+        ["ingress_global_timestamp", 48, false],
+        ["egress_global_timestamp", 48, false],
+        ["mcast_grp", 16, false],
+        ["egress_rid", 16, false],
+        ["checksum_error", 1, false],
+        ["parser_error", 32, false],
+        ["priority", 3, false],
+        ["_padding", 3, false]
+      ]
+    },
+    {
+      "name" : "ethernet_t",
+      "id" : 3,
+      "fields" : [
+        ["dstAddr", 48, false],
+        ["srcAddr", 48, false],
+        ["etherType", 16, false]
+      ]
+    },
+    {
+      "name" : "myTunnel_t",
+      "id" : 4,
+      "fields" : [
+        ["proto_id", 16, false],
+        ["dst_id", 16, false]
+      ]
+    },
+    {
+      "name" : "ipv4_t",
+      "id" : 5,
+      "fields" : [
+        ["version", 4, false],
+        ["ihl", 4, false],
+        ["diffserv", 8, false],
+        ["totalLen", 16, false],
+        ["identification", 16, false],
+        ["flags", 3, false],
+        ["fragOffset", 13, false],
+        ["ttl", 8, false],
+        ["protocol", 8, false],
+        ["hdrChecksum", 16, false],
+        ["srcAddr", 32, false],
+        ["dstAddr", 32, false]
+      ]
+    }
+  ],
+  "headers" : [
+    {
+      "name" : "return_stack[0]",
+      "id" : 0,
+      "header_type" : "return_stack_type",
+      "metadata" : false,
+      "pi_omit" : true
+    },
+    {
+      "name" : "return_stack[1]",
+      "id" : 1,
+      "header_type" : "return_stack_type",
+      "metadata" : false,
+      "pi_omit" : true
+    },
+    {
+      "name" : "return_stack[2]",
+      "id" : 2,
+      "header_type" : "return_stack_type",
+      "metadata" : false,
+      "pi_omit" : true
+    },
+    {
+      "name" : "return_stack[3]",
+      "id" : 3,
+      "header_type" : "return_stack_type",
+      "metadata" : false,
+      "pi_omit" : true
+    },
+    {
+      "name" : "return_stack[4]",
+      "id" : 4,
+      "header_type" : "return_stack_type",
+      "metadata" : false,
+      "pi_omit" : true
+    },
+    {
+      "name" : "return_stack[5]",
+      "id" : 5,
+      "header_type" : "return_stack_type",
+      "metadata" : false,
+      "pi_omit" : true
+    },
+    {
+      "name" : "return_stack[6]",
+      "id" : 6,
+      "header_type" : "return_stack_type",
+      "metadata" : false,
+      "pi_omit" : true
+    },
+    {
+      "name" : "return_stack[7]",
+      "id" : 7,
+      "header_type" : "return_stack_type",
+      "metadata" : false,
+      "pi_omit" : true
+    },
+    {
+      "name" : "return_stack[8]",
+      "id" : 8,
+      "header_type" : "return_stack_type",
+      "metadata" : false,
+      "pi_omit" : true
+    },
+    {
+      "name" : "return_stack[9]",
+      "id" : 9,
+      "header_type" : "return_stack_type",
+      "metadata" : false,
+      "pi_omit" : true
+    },
+    {
+      "name" : "scalars",
+      "id" : 10,
+      "header_type" : "scalars_0",
+      "metadata" : true,
+      "pi_omit" : true
+    },
+    {
+      "name" : "standard_metadata",
+      "id" : 11,
+      "header_type" : "standard_metadata",
+      "metadata" : true,
+      "pi_omit" : true
+    },
+    {
+      "name" : "ethernet",
+      "id" : 12,
+      "header_type" : "ethernet_t",
+      "metadata" : false,
+      "pi_omit" : true
+    },
+    {
+      "name" : "myTunnel",
+      "id" : 13,
+      "header_type" : "myTunnel_t",
+      "metadata" : false,
+      "pi_omit" : true
+    },
+    {
+      "name" : "ipv4",
+      "id" : 14,
+      "header_type" : "ipv4_t",
+      "metadata" : false,
+      "pi_omit" : true
+    }
+  ],
+  "header_stacks" : [
+    {
+      "name" : "return_stack",
+      "id" : 0,
+      "header_type" : "return_stack_type",
+      "size" : 10,
+      "header_ids" : [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]
+    }
+  ],
+  "header_union_types" : [],
+  "header_unions" : [],
+  "header_union_stacks" : [],
+  "field_lists" : [],
+  "errors" : [
+    ["NoError", 0],
+    ["PacketTooShort", 1],
+    ["NoMatch", 2],
+    ["StackOutOfBounds", 3],
+    ["HeaderTooShort", 4],
+    ["ParserTimeout", 5],
+    ["ParserInvalidArgument", 6]
+  ],
+  "enums" : [],
+  "parsers" : [
+    {
+      "name" : "parser",
+      "id" : 0,
+      "init_state" : "start",
+      "parse_states" : [
+        {
+          "name" : "start",
+          "id" : 0,
+          "parser_ops" : [
+            {
+              "parameters" : [
+                {
+                  "type" : "field",
+                  "value" : ["scalars", "return_stack_index"]
+                },
+                {
+                  "type" : "hexstr",
+                  "value" : "0x0000"
+                }
+              ],
+              "op" : "set"
+            },
+            {
+              "parameters" : [
+                {
+                  "parameters" : [
+                    {
+                      "type" : "header",
+                      "value" : "return_stack[0]"
+                    }
+                  ],
+                  "op" : "remove_header"
+                }
+              ],
+              "op" : "primitive"
+            },
+            {
+              "parameters" : [
+                {
+                  "parameters" : [
+                    {
+                      "type" : "header",
+                      "value" : "return_stack[1]"
+                    }
+                  ],
+                  "op" : "remove_header"
+                }
+              ],
+              "op" : "primitive"
+            },
+            {
+              "parameters" : [
+                {
+                  "parameters" : [
+                    {
+                      "type" : "header",
+                      "value" : "return_stack[2]"
+                    }
+                  ],
+                  "op" : "remove_header"
+                }
+              ],
+              "op" : "primitive"
+            },
+            {
+              "parameters" : [
+                {
+                  "parameters" : [
+                    {
+                      "type" : "header",
+                      "value" : "return_stack[3]"
+                    }
+                  ],
+                  "op" : "remove_header"
+                }
+              ],
+              "op" : "primitive"
+            },
+            {
+              "parameters" : [
+                {
+                  "parameters" : [
+                    {
+                      "type" : "header",
+                      "value" : "return_stack[4]"
+                    }
+                  ],
+                  "op" : "remove_header"
+                }
+              ],
+              "op" : "primitive"
+            },
+            {
+              "parameters" : [
+                {
+                  "parameters" : [
+                    {
+                      "type" : "header",
+                      "value" : "return_stack[5]"
+                    }
+                  ],
+                  "op" : "remove_header"
+                }
+              ],
+              "op" : "primitive"
+            },
+            {
+              "parameters" : [
+                {
+                  "parameters" : [
+                    {
+                      "type" : "header",
+                      "value" : "return_stack[6]"
+                    }
+                  ],
+                  "op" : "remove_header"
+                }
+              ],
+              "op" : "primitive"
+            },
+            {
+              "parameters" : [
+                {
+                  "parameters" : [
+                    {
+                      "type" : "header",
+                      "value" : "return_stack[7]"
+                    }
+                  ],
+                  "op" : "remove_header"
+                }
+              ],
+              "op" : "primitive"
+            },
+            {
+              "parameters" : [
+                {
+                  "parameters" : [
+                    {
+                      "type" : "header",
+                      "value" : "return_stack[8]"
+                    }
+                  ],
+                  "op" : "remove_header"
+                }
+              ],
+              "op" : "primitive"
+            },
+            {
+              "parameters" : [
+                {
+                  "parameters" : [
+                    {
+                      "type" : "header",
+                      "value" : "return_stack[9]"
+                    }
+                  ],
+                  "op" : "remove_header"
+                }
+              ],
+              "op" : "primitive"
+            },
+            {
+              "parameters" : [
+                {
+                  "type" : "regular",
+                  "value" : "ethernet"
+                }
+              ],
+              "op" : "extract"
+            }
+          ],
+          "transitions" : [
+            {
+              "type" : "default",
+              "value" : null,
+              "mask" : null,
+              "next_state" : "state_6"
+            }
+          ],
+          "transition_key" : []
+        },
+        {
+          "name" : "state_1_true",
+          "id" : 1,
+          "parser_ops" : [
+            {
+              "parameters" : [
+                {
+                  "type" : "field",
+                  "value" : ["scalars", "tmp"]
+                },
+                {
+                  "type" : "hexstr",
+                  "value" : "0x0000"
+                }
+              ],
+              "op" : "set"
+            }
+          ],
+          "transitions" : [
+            {
+              "type" : "default",
+              "value" : null,
+              "mask" : null,
+              "next_state" : "state_1_join"
+            }
+          ],
+          "transition_key" : []
+        },
+        {
+          "name" : "state_1_join",
+          "id" : 2,
+          "parser_ops" : [
+            {
+              "parameters" : [
+                {
+                  "type" : "field",
+                  "value" : ["scalars", "tmp_0"]
+                },
+                {
+                  "type" : "expression",
+                  "value" : {
+                    "type" : "expression",
+                    "value" : {
+                      "op" : "?",
+                      "left" : {
+                        "type" : "hexstr",
+                        "value" : "0x01"
+                      },
+                      "right" : {
+                        "type" : "hexstr",
+                        "value" : "0x00"
+                      },
+                      "cond" : {
+                        "type" : "expression",
+                        "value" : {
+                          "op" : "==",
+                          "left" : {
+                            "type" : "field",
+                            "value" : ["scalars", "type_1"]
+                          },
+                          "right" : {
+                            "type" : "hexstr",
+                            "value" : "0x1212"
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              ],
+              "op" : "set"
+            }
+          ],
+          "transitions" : [
+            {
+              "type" : "hexstr",
+              "value" : "0x01",
+              "mask" : null,
+              "next_state" : "state_1_true_0"
+            },
+            {
+              "type" : "hexstr",
+              "value" : "0x00",
+              "mask" : null,
+              "next_state" : "state_1_join_0"
+            }
+          ],
+          "transition_key" : [
+            {
+              "type" : "field",
+              "value" : ["scalars", "tmp_0"]
+            }
+          ]
+        },
+        {
+          "name" : "state_1_true_0",
+          "id" : 3,
+          "parser_ops" : [
+            {
+              "parameters" : [
+                {
+                  "type" : "field",
+                  "value" : ["scalars", "tmp"]
+                },
+                {
+                  "type" : "hexstr",
+                  "value" : "0x0001"
+                }
+              ],
+              "op" : "set"
+            }
+          ],
+          "transitions" : [
+            {
+              "type" : "default",
+              "value" : null,
+              "mask" : null,
+              "next_state" : "state_1_join_0"
+            }
+          ],
+          "transition_key" : []
+        },
+        {
+          "name" : "state_1_join_0",
+          "id" : 4,
+          "parser_ops" : [],
+          "transitions" : [
+            {
+              "type" : "hexstr",
+              "value" : "0x0000",
+              "mask" : null,
+              "next_state" : "state_16"
+            },
+            {
+              "type" : "hexstr",
+              "value" : "0x0001",
+              "mask" : null,
+              "next_state" : "state_24"
+            }
+          ],
+          "transition_key" : [
+            {
+              "type" : "field",
+              "value" : ["scalars", "tmp"]
+            }
+          ]
+        },
+        {
+          "name" : "state_8",
+          "id" : 5,
+          "parser_ops" : [
+            {
+              "parameters" : [
+                {
+                  "type" : "field",
+                  "value" : ["scalars", "tmp_1"]
+                },
+                {
+                  "type" : "expression",
+                  "value" : {
+                    "type" : "expression",
+                    "value" : {
+                      "op" : "?",
+                      "left" : {
+                        "type" : "hexstr",
+                        "value" : "0x01"
+                      },
+                      "right" : {
+                        "type" : "hexstr",
+                        "value" : "0x00"
+                      },
+                      "cond" : {
+                        "type" : "expression",
+                        "value" : {
+                          "op" : "==",
+                          "left" : {
+                            "type" : "field",
+                            "value" : ["scalars", "return_stack_index"]
+                          },
+                          "right" : {
+                            "type" : "hexstr",
+                            "value" : "0x0000"
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              ],
+              "op" : "set"
+            }
+          ],
+          "transitions" : [
+            {
+              "type" : "hexstr",
+              "value" : "0x01",
+              "mask" : null,
+              "next_state" : "state_8_true"
+            },
+            {
+              "type" : "hexstr",
+              "value" : "0x00",
+              "mask" : null,
+              "next_state" : "state_8_false"
+            }
+          ],
+          "transition_key" : [
+            {
+              "type" : "field",
+              "value" : ["scalars", "tmp_1"]
+            }
+          ]
+        },
+        {
+          "name" : "state_8_true",
+          "id" : 6,
+          "parser_ops" : [
+            {
+              "parameters" : [
+                {
+                  "type" : "field",
+                  "value" : ["scalars", "tmp_return"]
+                },
+                {
+                  "type" : "hexstr",
+                  "value" : "0x0000"
+                }
+              ],
+              "op" : "set"
+            }
+          ],
+          "transitions" : [
+            {
+              "type" : "default",
+              "value" : null,
+              "mask" : null,
+              "next_state" : "state_8_join"
+            }
+          ],
+          "transition_key" : []
+        },
+        {
+          "name" : "state_8_false",
+          "id" : 7,
+          "parser_ops" : [
+            {
+              "parameters" : [
+                {
+                  "type" : "field",
+                  "value" : ["scalars", "tmp_return"]
+                },
+                {
+                  "type" : "expression",
+                  "value" : {
+                    "type" : "expression",
+                    "value" : {
+                      "op" : "access_field",
+                      "left" : {
+                        "type" : "expression",
+                        "value" : {
+                          "op" : "dereference_header_stack",
+                          "left" : {
+                            "type" : "header_stack",
+                            "value" : "return_stack"
+                          },
+                          "right" : {
+                            "type" : "field",
+                            "value" : ["scalars", "return_stack_index"]
+                          }
+                        }
+                      },
+                      "right" : 0
+                    }
+                  }
+                }
+              ],
+              "op" : "set"
+            }
+          ],
+          "transitions" : [
+            {
+              "type" : "default",
+              "value" : null,
+              "mask" : null,
+              "next_state" : "state_8_join"
+            }
+          ],
+          "transition_key" : []
+        },
+        {
+          "name" : "state_8_join",
+          "id" : 8,
+          "parser_ops" : [],
+          "transitions" : [
+            {
+              "type" : "hexstr",
+              "value" : "0x0000",
+              "mask" : null,
+              "next_state" : null
+            },
+            {
+              "type" : "hexstr",
+              "value" : "0x0000",
+              "mask" : null,
+              "next_state" : "state_8"
+            },
+            {
+              "type" : "hexstr",
+              "value" : "0x0001",
+              "mask" : null,
+              "next_state" : "state_28"
+            }
+          ],
+          "transition_key" : [
+            {
+              "type" : "field",
+              "value" : ["scalars", "tmp_return"]
+            }
+          ]
+        },
+        {
+          "name" : "state_16",
+          "id" : 9,
+          "parser_ops" : [
+            {
+              "parameters" : [
+                {
+                  "type" : "regular",
+                  "value" : "ipv4"
+                }
+              ],
+              "op" : "extract"
+            },
+            {
+              "parameters" : [
+                {
+                  "type" : "field",
+                  "value" : ["scalars", "tmp_2"]
+                },
+                {
+                  "type" : "expression",
+                  "value" : {
+                    "type" : "expression",
+                    "value" : {
+                      "op" : "?",
+                      "left" : {
+                        "type" : "hexstr",
+                        "value" : "0x01"
+                      },
+                      "right" : {
+                        "type" : "hexstr",
+                        "value" : "0x00"
+                      },
+                      "cond" : {
+                        "type" : "expression",
+                        "value" : {
+                          "op" : "==",
+                          "left" : {
+                            "type" : "field",
+                            "value" : ["scalars", "return_stack_index"]
+                          },
+                          "right" : {
+                            "type" : "hexstr",
+                            "value" : "0x0000"
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              ],
+              "op" : "set"
+            }
+          ],
+          "transitions" : [
+            {
+              "type" : "hexstr",
+              "value" : "0x01",
+              "mask" : null,
+              "next_state" : "state_18_true"
+            },
+            {
+              "type" : "hexstr",
+              "value" : "0x00",
+              "mask" : null,
+              "next_state" : "state_18_false"
+            }
+          ],
+          "transition_key" : [
+            {
+              "type" : "field",
+              "value" : ["scalars", "tmp_2"]
+            }
+          ]
+        },
+        {
+          "name" : "state_18_true",
+          "id" : 10,
+          "parser_ops" : [
+            {
+              "parameters" : [
+                {
+                  "type" : "field",
+                  "value" : ["scalars", "tmp_return_0"]
+                },
+                {
+                  "type" : "hexstr",
+                  "value" : "0x0000"
+                }
+              ],
+              "op" : "set"
+            }
+          ],
+          "transitions" : [
+            {
+              "type" : "default",
+              "value" : null,
+              "mask" : null,
+              "next_state" : "state_18_join"
+            }
+          ],
+          "transition_key" : []
+        },
+        {
+          "name" : "state_18_false",
+          "id" : 11,
+          "parser_ops" : [
+            {
+              "parameters" : [
+                {
+                  "type" : "field",
+                  "value" : ["scalars", "tmp_return_0"]
+                },
+                {
+                  "type" : "expression",
+                  "value" : {
+                    "type" : "expression",
+                    "value" : {
+                      "op" : "access_field",
+                      "left" : {
+                        "type" : "expression",
+                        "value" : {
+                          "op" : "dereference_header_stack",
+                          "left" : {
+                            "type" : "header_stack",
+                            "value" : "return_stack"
+                          },
+                          "right" : {
+                            "type" : "field",
+                            "value" : ["scalars", "return_stack_index"]
+                          }
+                        }
+                      },
+                      "right" : 0
+                    }
+                  }
+                }
+              ],
+              "op" : "set"
+            }
+          ],
+          "transitions" : [
+            {
+              "type" : "default",
+              "value" : null,
+              "mask" : null,
+              "next_state" : "state_18_join"
+            }
+          ],
+          "transition_key" : []
+        },
+        {
+          "name" : "state_18_join",
+          "id" : 12,
+          "parser_ops" : [],
+          "transitions" : [
+            {
+              "type" : "hexstr",
+              "value" : "0x0000",
+              "mask" : null,
+              "next_state" : null
+            },
+            {
+              "type" : "hexstr",
+              "value" : "0x0000",
+              "mask" : null,
+              "next_state" : "state_8"
+            },
+            {
+              "type" : "hexstr",
+              "value" : "0x0001",
+              "mask" : null,
+              "next_state" : "state_28"
+            }
+          ],
+          "transition_key" : [
+            {
+              "type" : "field",
+              "value" : ["scalars", "tmp_return_0"]
+            }
+          ]
+        },
+        {
+          "name" : "state_6",
+          "id" : 13,
+          "parser_ops" : [
+            {
+              "parameters" : [
+                {
+                  "type" : "field",
+                  "value" : ["scalars", "return_stack_index"]
+                },
+                {
+                  "type" : "expression",
+                  "value" : {
+                    "type" : "expression",
+                    "value" : {
+                      "op" : "two_comp_mod",
+                      "left" : {
+                        "type" : "expression",
+                        "value" : {
+                          "op" : "+",
+                          "left" : {
+                            "type" : "field",
+                            "value" : ["scalars", "return_stack_index"]
+                          },
+                          "right" : {
+                            "type" : "hexstr",
+                            "value" : "0x0001"
+                          }
+                        }
+                      },
+                      "right" : {
+                        "type" : "hexstr",
+                        "value" : "0x10"
+                      }
+                    }
+                  }
+                }
+              ],
+              "op" : "set"
+            },
+            {
+              "parameters" : [
+                {
+                  "type" : "expression",
+                  "value" : {
+                    "op" : "access_field",
+                    "left" : {
+                      "type" : "expression",
+                      "value" : {
+                        "op" : "dereference_header_stack",
+                        "left" : {
+                          "type" : "header_stack",
+                          "value" : "return_stack"
+                        },
+                        "right" : {
+                          "type" : "field",
+                          "value" : ["scalars", "return_stack_index"]
+                        }
+                      }
+                    },
+                    "right" : 0
+                  }
+                },
+                {
+                  "type" : "hexstr",
+                  "value" : "0x0002"
+                }
+              ],
+              "op" : "set"
+            },
+            {
+              "parameters" : [
+                {
+                  "type" : "field",
+                  "value" : ["scalars", "type_1"]
+                },
+                {
+                  "type" : "field",
+                  "value" : ["ethernet", "etherType"]
+                }
+              ],
+              "op" : "set"
+            },
+            {
+              "parameters" : [
+                {
+                  "type" : "field",
+                  "value" : ["scalars", "tmp_3"]
+                },
+                {
+                  "type" : "expression",
+                  "value" : {
+                    "type" : "expression",
+                    "value" : {
+                      "op" : "?",
+                      "left" : {
+                        "type" : "hexstr",
+                        "value" : "0x01"
+                      },
+                      "right" : {
+                        "type" : "hexstr",
+                        "value" : "0x00"
+                      },
+                      "cond" : {
+                        "type" : "expression",
+                        "value" : {
+                          "op" : "==",
+                          "left" : {
+                            "type" : "field",
+                            "value" : ["ethernet", "etherType"]
+                          },
+                          "right" : {
+                            "type" : "hexstr",
+                            "value" : "0x0800"
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              ],
+              "op" : "set"
+            }
+          ],
+          "transitions" : [
+            {
+              "type" : "hexstr",
+              "value" : "0x01",
+              "mask" : null,
+              "next_state" : "state_1_true"
+            },
+            {
+              "type" : "hexstr",
+              "value" : "0x00",
+              "mask" : null,
+              "next_state" : "state_1_join"
+            }
+          ],
+          "transition_key" : [
+            {
+              "type" : "field",
+              "value" : ["scalars", "tmp_3"]
+            }
+          ]
+        },
+        {
+          "name" : "state_24",
+          "id" : 14,
+          "parser_ops" : [
+            {
+              "parameters" : [
+                {
+                  "type" : "regular",
+                  "value" : "myTunnel"
+                }
+              ],
+              "op" : "extract"
+            }
+          ],
+          "transitions" : [
+            {
+              "type" : "default",
+              "value" : null,
+              "mask" : null,
+              "next_state" : "state_6"
+            }
+          ],
+          "transition_key" : []
+        },
+        {
+          "name" : "state_28",
+          "id" : 15,
+          "parser_ops" : [
+            {
+              "parameters" : [
+                {
+                  "type" : "field",
+                  "value" : ["scalars", "tmp_4"]
+                },
+                {
+                  "type" : "expression",
+                  "value" : {
+                    "type" : "expression",
+                    "value" : {
+                      "op" : "?",
+                      "left" : {
+                        "type" : "hexstr",
+                        "value" : "0x01"
+                      },
+                      "right" : {
+                        "type" : "hexstr",
+                        "value" : "0x00"
+                      },
+                      "cond" : {
+                        "type" : "expression",
+                        "value" : {
+                          "op" : "==",
+                          "left" : {
+                            "type" : "field",
+                            "value" : ["scalars", "return_stack_index"]
+                          },
+                          "right" : {
+                            "type" : "hexstr",
+                            "value" : "0x0000"
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              ],
+              "op" : "set"
+            }
+          ],
+          "transitions" : [
+            {
+              "type" : "hexstr",
+              "value" : "0x01",
+              "mask" : null,
+              "next_state" : "state_28_true"
+            },
+            {
+              "type" : "hexstr",
+              "value" : "0x00",
+              "mask" : null,
+              "next_state" : "state_28_false"
+            }
+          ],
+          "transition_key" : [
+            {
+              "type" : "field",
+              "value" : ["scalars", "tmp_4"]
+            }
+          ]
+        },
+        {
+          "name" : "state_28_true",
+          "id" : 16,
+          "parser_ops" : [
+            {
+              "parameters" : [
+                {
+                  "type" : "field",
+                  "value" : ["scalars", "tmp_return_2"]
+                },
+                {
+                  "type" : "hexstr",
+                  "value" : "0x0000"
+                }
+              ],
+              "op" : "set"
+            }
+          ],
+          "transitions" : [
+            {
+              "type" : "default",
+              "value" : null,
+              "mask" : null,
+              "next_state" : "state_28_join"
+            }
+          ],
+          "transition_key" : []
+        },
+        {
+          "name" : "state_28_false",
+          "id" : 17,
+          "parser_ops" : [
+            {
+              "parameters" : [
+                {
+                  "type" : "field",
+                  "value" : ["scalars", "tmp_return_2"]
+                },
+                {
+                  "type" : "expression",
+                  "value" : {
+                    "type" : "expression",
+                    "value" : {
+                      "op" : "access_field",
+                      "left" : {
+                        "type" : "expression",
+                        "value" : {
+                          "op" : "dereference_header_stack",
+                          "left" : {
+                            "type" : "header_stack",
+                            "value" : "return_stack"
+                          },
+                          "right" : {
+                            "type" : "field",
+                            "value" : ["scalars", "return_stack_index"]
+                          }
+                        }
+                      },
+                      "right" : 0
+                    }
+                  }
+                }
+              ],
+              "op" : "set"
+            }
+          ],
+          "transitions" : [
+            {
+              "type" : "default",
+              "value" : null,
+              "mask" : null,
+              "next_state" : "state_28_join"
+            }
+          ],
+          "transition_key" : []
+        },
+        {
+          "name" : "state_28_join",
+          "id" : 18,
+          "parser_ops" : [],
+          "transitions" : [
+            {
+              "type" : "hexstr",
+              "value" : "0x0000",
+              "mask" : null,
+              "next_state" : null
+            },
+            {
+              "type" : "hexstr",
+              "value" : "0x0000",
+              "mask" : null,
+              "next_state" : "state_8"
+            },
+            {
+              "type" : "hexstr",
+              "value" : "0x0001",
+              "mask" : null,
+              "next_state" : "state_28"
+            }
+          ],
+          "transition_key" : [
+            {
+              "type" : "field",
+              "value" : ["scalars", "tmp_return_2"]
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "parse_vsets" : [],
+  "deparsers" : [
+    {
+      "name" : "deparser",
+      "id" : 0,
+      "source_info" : {
+        "filename" : "basic_tunnel.p4",
+        "line" : 290,
+        "column" : 8,
+        "source_fragment" : "MyDeparser"
+      },
+      "order" : ["ethernet", "myTunnel", "ipv4"],
+      "primitives" : []
+    }
+  ],
+  "meter_arrays" : [],
+  "counter_arrays" : [],
+  "register_arrays" : [],
+  "calculations" : [
+    {
+      "name" : "calc",
+      "id" : 0,
+      "source_info" : {
+        "filename" : "basic_tunnel.p4",
+        "line" : 268,
+        "column" : 8,
+        "source_fragment" : "update_checksum( ..."
+      },
+      "algo" : "csum16",
+      "input" : [
+        {
+          "type" : "field",
+          "value" : ["ipv4", "version"]
+        },
+        {
+          "type" : "field",
+          "value" : ["ipv4", "ihl"]
+        },
+        {
+          "type" : "field",
+          "value" : ["ipv4", "diffserv"]
+        },
+        {
+          "type" : "field",
+          "value" : ["ipv4", "totalLen"]
+        },
+        {
+          "type" : "field",
+          "value" : ["ipv4", "identification"]
+        },
+        {
+          "type" : "field",
+          "value" : ["ipv4", "flags"]
+        },
+        {
+          "type" : "field",
+          "value" : ["ipv4", "fragOffset"]
+        },
+        {
+          "type" : "field",
+          "value" : ["ipv4", "ttl"]
+        },
+        {
+          "type" : "field",
+          "value" : ["ipv4", "protocol"]
+        },
+        {
+          "type" : "field",
+          "value" : ["ipv4", "srcAddr"]
+        },
+        {
+          "type" : "field",
+          "value" : ["ipv4", "dstAddr"]
+        }
+      ]
+    }
+  ],
+  "learn_lists" : [],
+  "actions" : [
+    {
+      "name" : "NoAction",
+      "id" : 0,
+      "runtime_data" : [],
+      "primitives" : []
+    },
+    {
+      "name" : "MyIngress.drop",
+      "id" : 1,
+      "runtime_data" : [],
+      "primitives" : [
+        {
+          "op" : "mark_to_drop",
+          "parameters" : [
+            {
+              "type" : "header",
+              "value" : "standard_metadata"
+            }
+          ],
+          "source_info" : {
+            "filename" : "basic_tunnel.p4",
+            "line" : 200,
+            "column" : 8,
+            "source_fragment" : "mark_to_drop(standard_metadata)"
+          }
+        }
+      ]
+    },
+    {
+      "name" : "MyIngress.drop",
+      "id" : 2,
+      "runtime_data" : [],
+      "primitives" : [
+        {
+          "op" : "mark_to_drop",
+          "parameters" : [
+            {
+              "type" : "header",
+              "value" : "standard_metadata"
+            }
+          ],
+          "source_info" : {
+            "filename" : "basic_tunnel.p4",
+            "line" : 200,
+            "column" : 8,
+            "source_fragment" : "mark_to_drop(standard_metadata)"
+          }
+        }
+      ]
+    },
+    {
+      "name" : "MyIngress.ipv4_forward",
+      "id" : 3,
+      "runtime_data" : [
+        {
+          "name" : "dstAddr",
+          "bitwidth" : 48
+        },
+        {
+          "name" : "port",
+          "bitwidth" : 9
+        }
+      ],
+      "primitives" : [
+        {
+          "op" : "assign",
+          "parameters" : [
+            {
+              "type" : "field",
+              "value" : ["standard_metadata", "egress_spec"]
+            },
+            {
+              "type" : "runtime_data",
+              "value" : 1
+            }
+          ],
+          "source_info" : {
+            "filename" : "basic_tunnel.p4",
+            "line" : 204,
+            "column" : 8,
+            "source_fragment" : "standard_metadata.egress_spec = port"
+          }
+        },
+        {
+          "op" : "assign",
+          "parameters" : [
+            {
+              "type" : "field",
+              "value" : ["ethernet", "srcAddr"]
+            },
+            {
+              "type" : "field",
+              "value" : ["ethernet", "dstAddr"]
+            }
+          ],
+          "source_info" : {
+            "filename" : "basic_tunnel.p4",
+            "line" : 205,
+            "column" : 8,
+            "source_fragment" : "hdr.ethernet.srcAddr = hdr.ethernet.dstAddr"
+          }
+        },
+        {
+          "op" : "assign",
+          "parameters" : [
+            {
+              "type" : "field",
+              "value" : ["ethernet", "dstAddr"]
+            },
+            {
+              "type" : "runtime_data",
+              "value" : 0
+            }
+          ],
+          "source_info" : {
+            "filename" : "basic_tunnel.p4",
+            "line" : 206,
+            "column" : 8,
+            "source_fragment" : "hdr.ethernet.dstAddr = dstAddr"
+          }
+        },
+        {
+          "op" : "assign",
+          "parameters" : [
+            {
+              "type" : "field",
+              "value" : ["ipv4", "ttl"]
+            },
+            {
+              "type" : "expression",
+              "value" : {
+                "type" : "expression",
+                "value" : {
+                  "op" : "&",
+                  "left" : {
+                    "type" : "expression",
+                    "value" : {
+                      "op" : "+",
+                      "left" : {
+                        "type" : "field",
+                        "value" : ["ipv4", "ttl"]
+                      },
+                      "right" : {
+                        "type" : "hexstr",
+                        "value" : "0xff"
+                      }
+                    }
+                  },
+                  "right" : {
+                    "type" : "hexstr",
+                    "value" : "0xff"
+                  }
+                }
+              }
+            }
+          ],
+          "source_info" : {
+            "filename" : "basic_tunnel.p4",
+            "line" : 207,
+            "column" : 8,
+            "source_fragment" : "hdr.ipv4.ttl = hdr.ipv4.ttl - 1"
+          }
+        }
+      ]
+    },
+    {
+      "name" : "MyIngress.myTunnel_forward",
+      "id" : 4,
+      "runtime_data" : [
+        {
+          "name" : "port",
+          "bitwidth" : 9
+        }
+      ],
+      "primitives" : [
+        {
+          "op" : "assign",
+          "parameters" : [
+            {
+              "type" : "field",
+              "value" : ["standard_metadata", "egress_spec"]
+            },
+            {
+              "type" : "runtime_data",
+              "value" : 0
+            }
+          ],
+          "source_info" : {
+            "filename" : "basic_tunnel.p4",
+            "line" : 224,
+            "column" : 8,
+            "source_fragment" : "standard_metadata.egress_spec = port"
+          }
+        }
+      ]
+    }
+  ],
+  "pipelines" : [
+    {
+      "name" : "ingress",
+      "id" : 0,
+      "source_info" : {
+        "filename" : "basic_tunnel.p4",
+        "line" : 196,
+        "column" : 8,
+        "source_fragment" : "MyIngress"
+      },
+      "init_table" : "node_2",
+      "tables" : [
+        {
+          "name" : "MyIngress.ipv4_lpm",
+          "id" : 0,
+          "source_info" : {
+            "filename" : "basic_tunnel.p4",
+            "line" : 210,
+            "column" : 10,
+            "source_fragment" : "ipv4_lpm"
+          },
+          "key" : [
+            {
+              "match_type" : "lpm",
+              "name" : "hdr.ipv4.dstAddr",
+              "target" : ["ipv4", "dstAddr"],
+              "mask" : null
+            }
+          ],
+          "match_type" : "lpm",
+          "type" : "simple",
+          "max_size" : 1024,
+          "with_counters" : false,
+          "support_timeout" : false,
+          "direct_meters" : null,
+          "action_ids" : [3, 1, 0],
+          "actions" : ["MyIngress.ipv4_forward", "MyIngress.drop", "NoAction"],
+          "base_default_next" : "node_4",
+          "next_tables" : {
+            "MyIngress.ipv4_forward" : "node_4",
+            "MyIngress.drop" : "node_4",
+            "NoAction" : "node_4"
+          },
+          "default_entry" : {
+            "action_id" : 1,
+            "action_const" : false,
+            "action_data" : [],
+            "action_entry_const" : false
+          }
+        },
+        {
+          "name" : "MyIngress.myTunnel_exact",
+          "id" : 1,
+          "source_info" : {
+            "filename" : "basic_tunnel.p4",
+            "line" : 227,
+            "column" : 10,
+            "source_fragment" : "myTunnel_exact"
+          },
+          "key" : [
+            {
+              "match_type" : "exact",
+              "name" : "hdr.myTunnel.dst_id",
+              "target" : ["myTunnel", "dst_id"],
+              "mask" : null
+            }
+          ],
+          "match_type" : "exact",
+          "type" : "simple",
+          "max_size" : 1024,
+          "with_counters" : false,
+          "support_timeout" : false,
+          "direct_meters" : null,
+          "action_ids" : [4, 2],
+          "actions" : ["MyIngress.myTunnel_forward", "MyIngress.drop"],
+          "base_default_next" : null,
+          "next_tables" : {
+            "MyIngress.myTunnel_forward" : null,
+            "MyIngress.drop" : null
+          },
+          "default_entry" : {
+            "action_id" : 2,
+            "action_const" : false,
+            "action_data" : [],
+            "action_entry_const" : false
+          }
+        }
+      ],
+      "action_profiles" : [],
+      "conditionals" : [
+        {
+          "name" : "node_2",
+          "id" : 0,
+          "source_info" : {
+            "filename" : "basic_tunnel.p4",
+            "line" : 240,
+            "column" : 12,
+            "source_fragment" : "hdr.ipv4.isValid() && !hdr.myTunnel.isValid()"
+          },
+          "expression" : {
+            "type" : "expression",
+            "value" : {
+              "op" : "and",
+              "left" : {
+                "type" : "expression",
+                "value" : {
+                  "op" : "d2b",
+                  "left" : null,
+                  "right" : {
+                    "type" : "field",
+                    "value" : ["ipv4", "$valid$"]
+                  }
+                }
+              },
+              "right" : {
+                "type" : "expression",
+                "value" : {
+                  "op" : "not",
+                  "left" : null,
+                  "right" : {
+                    "type" : "expression",
+                    "value" : {
+                      "op" : "d2b",
+                      "left" : null,
+                      "right" : {
+                        "type" : "field",
+                        "value" : ["myTunnel", "$valid$"]
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "true_next" : "MyIngress.ipv4_lpm",
+          "false_next" : "node_4"
+        },
+        {
+          "name" : "node_4",
+          "id" : 1,
+          "source_info" : {
+            "filename" : "basic_tunnel.p4",
+            "line" : 245,
+            "column" : 12,
+            "source_fragment" : "hdr.myTunnel.isValid()"
+          },
+          "expression" : {
+            "type" : "expression",
+            "value" : {
+              "op" : "d2b",
+              "left" : null,
+              "right" : {
+                "type" : "field",
+                "value" : ["myTunnel", "$valid$"]
+              }
+            }
+          },
+          "false_next" : null,
+          "true_next" : "MyIngress.myTunnel_exact"
+        }
+      ]
+    },
+    {
+      "name" : "egress",
+      "id" : 1,
+      "source_info" : {
+        "filename" : "basic_tunnel.p4",
+        "line" : 256,
+        "column" : 8,
+        "source_fragment" : "MyEgress"
+      },
+      "init_table" : null,
+      "tables" : [],
+      "action_profiles" : [],
+      "conditionals" : []
+    }
+  ],
+  "checksums" : [
+    {
+      "name" : "cksum",
+      "id" : 0,
+      "source_info" : {
+        "filename" : "basic_tunnel.p4",
+        "line" : 268,
+        "column" : 8,
+        "source_fragment" : "update_checksum( ..."
+      },
+      "target" : ["ipv4", "hdrChecksum"],
+      "type" : "generic",
+      "calculation" : "calc",
+      "verify" : false,
+      "update" : true,
+      "if_cond" : {
+        "type" : "expression",
+        "value" : {
+          "op" : "d2b",
+          "left" : null,
+          "right" : {
+            "type" : "field",
+            "value" : ["ipv4", "$valid$"]
+          }
+        }
+      }
+    }
+  ],
+  "force_arith" : [],
+  "extern_instances" : [],
+  "field_aliases" : [
+    [
+      "queueing_metadata.enq_timestamp",
+      ["standard_metadata", "enq_timestamp"]
+    ],
+    [
+      "queueing_metadata.enq_qdepth",
+      ["standard_metadata", "enq_qdepth"]
+    ],
+    [
+      "queueing_metadata.deq_timedelta",
+      ["standard_metadata", "deq_timedelta"]
+    ],
+    [
+      "queueing_metadata.deq_qdepth",
+      ["standard_metadata", "deq_qdepth"]
+    ],
+    [
+      "intrinsic_metadata.ingress_global_timestamp",
+      ["standard_metadata", "ingress_global_timestamp"]
+    ],
+    [
+      "intrinsic_metadata.egress_global_timestamp",
+      ["standard_metadata", "egress_global_timestamp"]
+    ],
+    [
+      "intrinsic_metadata.mcast_grp",
+      ["standard_metadata", "mcast_grp"]
+    ],
+    [
+      "intrinsic_metadata.egress_rid",
+      ["standard_metadata", "egress_rid"]
+    ],
+    [
+      "intrinsic_metadata.priority",
+      ["standard_metadata", "priority"]
+    ]
+  ],
+  "program" : "basic_tunnel.p4",
+  "__meta__" : {
+    "version" : [2, 23],
+    "compiler" : "https://github.com/p4lang/p4c"
+  }
+}

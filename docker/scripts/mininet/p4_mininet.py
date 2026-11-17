@@ -92,6 +92,8 @@ class P4Switch(Switch):
             self.device_id = P4Switch.device_id
             P4Switch.device_id += 1
         self.nanomsg = "ipc:///tmp/bm-{}-log.ipc".format(self.device_id)
+        
+
 
     @classmethod
     def setup(cls):
@@ -144,6 +146,12 @@ class P4Switch(Switch):
             error("P4 switch {} did not start correctly.\n".format(self.name))
             exit(1)
         info("P4 switch {} has been started.\n".format(self.name))
+
+        # Disable IPv6 on all interfaces of the switch
+        for intf in self.intfs.values():
+            if intf.name != 'lo':
+                # self.cmd("sysctl -w net.ipv6.conf.{}.disable_ipv6=1".format(intf.name))
+                self.cmd("sysctl net.ipv6.conf.all.disable_ipv6=1")
 
     def stop(self):
         "Terminate P4 switch."

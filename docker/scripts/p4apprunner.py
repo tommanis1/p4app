@@ -22,9 +22,11 @@ import os
 import sys
 import tarfile
 import subprocess
+import time
+
 parser = argparse.ArgumentParser(description='p4apprunner')
 parser.add_argument('--build-dir', help='Directory to build in.',
-                    type=str, action='store', required=False, default='/tmp')
+                    type=str, action='store', required=False, default='/tmp/p4app')
 parser.add_argument('--quiet', help='Suppress log messages.',
                     action='store_true', required=False, default=False)
 parser.add_argument('--build-only', help='Compile the program, but do not run it.',
@@ -33,7 +35,7 @@ parser.add_argument('--json', help='Use this compiled JSON file instead of compi
                     type=str, action='store', required=False, default=None)
 parser.add_argument('--manifest', help='Path to manifest file.',
                     type=str, action='store', required=False, default='./p4app.json')
-parser.add_argument('app', help='.p4app package to run.', type=str)
+# parser.add_argument('app', help='.p4app package to run.', type=str)
 parser.add_argument('target', help=('Target to run. Defaults to the first target '
                                     'in the package.'),
                     nargs='?', type=str)
@@ -128,7 +130,8 @@ def run_compile_bmv2(manifest):
     compiler_args.append('-o "%s"' % output_file)
     run_command('ls')
     # print(compiler_args)
-    run_command('p4c-bm2-ss -O0 %s' % ' '.join(compiler_args).replace('"', ''))
+    run_command('p4c-bm2-ss  --arch v1model %s' % ' '.join(compiler_args).replace('"', ''))
+    # run_command('p4c-bm2-ss --arch v1model  %s' % ' '.join(compiler_args).replace('"', ''))
 
     if 'run-after-compile' in manifest.target_config:
         commands = manifest.target_config['run-after-compile']
@@ -218,9 +221,12 @@ def build_only(manifest):
     if rc != 0:
         log_error("Failed to copy compiled program to output location")
         sys.exit(1)
+def get_main_host(hosts):
+    # import sys
+    print(hosts)
+    # sys.exit(1)
 
 def run_multiswitch(manifest):
-
     model = 'bmv2'
     if 'model' in manifest.target_config:
         model = manifest.target_config['model'].lower()
@@ -245,7 +251,48 @@ def run_multiswitch(manifest):
     script_args.append('--json "%s"' % json_file)
 
     program = '%s/mininet/multi_switch_mininet.py' % sys.path[0]
-    run_command('python3 %s %s' % (program, ' '.join(script_args)))
+    c = 'python3 %s %s' % (program, ' '.join(script_args))
+    if manifest.target_config['tmux']:
+        # Try to run with tmux first
+        try:
+            # Create main tmux session for mininet
+            tmux_cmd = f'tmux new-session -d -s mininet "{c}"'
+            result = subprocess.run(tmux_cmd, shell=True, capture_output=True, text=True)
+            if result.returncode != 0:
+                print(f"Error creating tmux session: {result.stderr}")
+                # Fall back to running without tmux
+                print("Falling back to running without tmux...")
+                run_command(c)
+            else:
+                print("Main tmux session for mininet created successfully")
+                
+                # Wait a bit for mininet to start up
+                time.sleep(2)
+
+                # run with a single host as 'main'
+                main_host, command = get_main_host(manifest.target_config["hosts"])
+                sys.exit(1)
+                if(main_host):
+                    run_command(tmux_send(insert_s_tmux(f"{main_host} {command}")))
+                    # Attach to the session
+                    print("Attaching to tmux session...")
+
+                else:
+                    # Create windows for each host
+                    num_hosts = 2
+                    for i in range(1, num_hosts + 1):
+                        # h1 tmux new-window -t mininet -n "h{i}" "/bin/bash"
+                        run_command(f"tmux send-keys -t mininet:0 h{i} Space tmux Space new-window Space -t Space mininet Space -n Space \"h{i}\" Space \"/bin/bash\" C-m")
+                        time.sleep(1)
+                run_command('tmux attach-session -t mininet')
+
+        except Exception as e:
+            print(f"Error: {str(e)}")
+            # Fall back to running without tmux
+            print("Falling back to running without tmux...")
+            run_command(c)
+    else:
+        run_command(c)
 
 def run_stf(manifest):
     output_file = run_compile_bmv2(manifest)
@@ -286,17 +333,22 @@ def run_custom(manifest):
 
 def main():
     run_command("ls")
-    print(args.app)
-    log('Entering build directory.')
+    # print(args.app)
+    log('Entering build directory. %s' % args.build_dir)
     os.chdir(args.build_dir)
+    run_command("ls")
+
+    run_command("ls tmp")
+    run_command("ls /tmp/p4app")
+    # run_command("ls tmp")
 
     # A '.p4app' package is really just a '.tar.gz' archive. Extract it so we
     # can process its contents.
-    log('Extracting package.')
-    tar = tarfile.open(args.app)
-    tar.extractall()
-    tar.close()
-    run_command("ls")
+    # log('Extracting package.')
+    # tar = tarfile.open(args.app)
+    # tar.extractall()
+    # tar.close()
+    # run_command("ls")
 
     run_command('touch /tmp/p4app_logs/p4s.s1.log')
     run_command('ln -s /tmp/p4app_logs/p4s.s1.log /tmp/p4s.s1.log')
